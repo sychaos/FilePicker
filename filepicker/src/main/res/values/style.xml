@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--文字样式-->
+    <style name="toolbar_title">
+        <item name="android:textSize">21sp</item>
+        <item name="android:textColor">@color/filepicker_white</item>
+    </style>
+
+    <style name="ThemeBottomDialog">
+        <!-- Customize your theme here. -->
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+</resources>

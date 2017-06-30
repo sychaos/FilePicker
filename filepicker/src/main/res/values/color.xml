@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="filepicker_toolbar">#00838F</color>
+    <color name="filepicker_white">#ffffff</color>
+    <color name="filepicker_colorGray">#E7EEEE</color>
+    <color name="filepicker_textcolor">#00838F</color>
+</resources>
