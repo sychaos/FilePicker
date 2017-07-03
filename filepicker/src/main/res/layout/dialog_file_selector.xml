@@ -29,7 +29,7 @@
         android:background="@drawable/selector_rectangle_bg_white_ripple"
         android:gravity="center"
         android:text="@string/select"
-        android:textColor="@color/filepicker_textcolor"
+        android:textColor="@color/textGrayMed"
         android:textSize="15sp" />
 
 </LinearLayout>

@@ -18,16 +18,11 @@ import cn.filepicker.model.PickerFile;
  * Created by cloudist on 2017/6/30.
  */
 
-public class CommonFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CommonFileAdapter extends BaseFileAdapter {
 
     public static final int TYPE_DOC = 1001;
     public static final int TYPE_FOLDER = 1002;
     public static final int TYPE_DIVIDER = 1003;
-
-    private List<PickerFile> mSelectedData = new ArrayList<>();
-    private List<PickerFile> mData = new ArrayList<>();
-    private Context mContext;
-    private OnClickListener onClickListener;
 
     public CommonFileAdapter(Context mContext, List<PickerFile> mData) {
         this.mContext = mContext;
@@ -56,22 +51,18 @@ public class CommonFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        intData(holder, mData.get(position), position);
-    }
-
-    private void intData(RecyclerView.ViewHolder holder, final PickerFile file, final int position) {
+    public void initData(RecyclerView.ViewHolder holder, final PickerFile pickerFile, int position) {
         final View view = holder.itemView;
         switch (holder.getItemViewType()) {
             case TYPE_DOC:
                 final CheckBox docCbChoose = (CheckBox) view.findViewById(R.id.cb_choose);
                 TextView docName = (TextView) view.findViewById(R.id.tv_name);
-                docCbChoose.setChecked(mSelectedData.contains(file));
-                docName.setText(file.getName());
+                docCbChoose.setChecked(mSelectedData.contains(pickerFile));
+                docName.setText(pickerFile.getName());
                 break;
             case TYPE_FOLDER:
                 TextView folderName = (TextView) view.findViewById(R.id.tv_name);
-                folderName.setText(file.getName());
+                folderName.setText(pickerFile.getName());
                 break;
             case TYPE_DIVIDER:
                 break;
@@ -80,20 +71,10 @@ public class CommonFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onClickListener.onClick(view, file);
+                    onClickListener.onClick(view, pickerFile);
                 }
             });
         }
-    }
-
-    @Override
-    public int getItemCount() {
-        return mData.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return mData.get(position).getItemType();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -128,10 +109,6 @@ public class CommonFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public void setOnClickListener(OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
-    }
-
-    public interface OnClickListener {
-        void onClick(View view, PickerFile pickerFile);
     }
 
 }

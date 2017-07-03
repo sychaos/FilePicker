@@ -8,7 +8,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import cn.filepicker.FilePickActivity;
+import cn.filepicker.FilePickerActivity;
+import cn.filepicker.FilePickerBaseActivity;
 import cn.filepicker.model.PickerFile;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivityForResult(
-                        FilePickActivity.getStartIntent(MainActivity.this, files), 1004);
+                        FilePickerActivity.getStartIntent(MainActivity.this, files), 1004);
             }
         });
 
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == 1004) {
-                files = (List<PickerFile>) data.getSerializableExtra("data");
+                files = (List<PickerFile>) data.getSerializableExtra(FilePickerBaseActivity.EXTRA_DATA);
             }
         }
 

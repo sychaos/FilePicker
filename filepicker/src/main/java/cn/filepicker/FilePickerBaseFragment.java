@@ -19,33 +19,26 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.List;
 
+import cn.filepicker.adapter.BaseFileAdapter;
 import cn.filepicker.adapter.CommonFileAdapter;
 import cn.filepicker.model.PickerFile;
 import cn.filepicker.utils.FileUtils;
 
 /**
- * Created by cloudist on 2017/7/3.
+ * Created by cloudist on 2017/7/4.
  */
 
-public class FilePickFragment extends Fragment {
+public abstract class FilePickerBaseFragment extends Fragment {
 
     public final static String ARGUMENTS_PATH = "arguments_path";
 
-    public static FilePickFragment newInstance(String path) {
-        Bundle arguments = new Bundle();
-        arguments.putString(ARGUMENTS_PATH, path);
-        FilePickFragment fragment = new FilePickFragment();
-        fragment.setArguments(arguments);
-        return fragment;
-    }
+    FilePickerFragment.OnResultListener onResultListener;
 
-    OnResultListener onResultListener;
-
-    private String mPath;
     private String mTitle;
+    public String mPath;
 
-    CommonFileAdapter mAdapter;
     LinearLayoutManager mLayoutManager;
+    BaseFileAdapter mAdapter;
 
     RecyclerView mRecyclerView;
     ImageView btnBack;
@@ -56,13 +49,20 @@ public class FilePickFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_file_selector, container, false);
-        return view;
+        return inflater.inflate(R.layout.dialog_file_selector, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mPath = getArguments().getString(ARGUMENTS_PATH);
+
+
+        if (!checkSDState()) {
+            Toast.makeText(getActivity(), R.string.no_sd_card, Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         TextView toolbarTitle = (TextView) view.findViewById(R.id.toolbar_title);
@@ -75,13 +75,10 @@ public class FilePickFragment extends Fragment {
         toolbar.setBackgroundResource(mToolbarColorResId);
         toolbarTitle.setText(mTitle);
 
-        if (!checkSDState()) {
-            Toast.makeText(getActivity(), R.string.no_sd_card, Toast.LENGTH_SHORT).show();
-            return;
-        }
+        btnSelect.setText(String.format(getString(R.string.has_selected), ((FilePickerActivity) getActivity()).selectedFiles.size()));
 
-        mAdapter = new CommonFileAdapter(getActivity(), getFileList(mPath));
-        mAdapter.setDefaultData(((FilePickActivity) getActivity()).selectedFiles);
+        mAdapter = initAdapter();
+        mAdapter.setDefaultData(((FilePickerActivity) getActivity()).selectedFiles);
         mAdapter.setOnClickListener(new CommonFileAdapter.OnClickListener() {
             @Override
             public void onClick(View view, final PickerFile pickerFile) {
@@ -90,10 +87,11 @@ public class FilePickFragment extends Fragment {
                         final CheckBox checkBox = (CheckBox) view.findViewById(R.id.cb_choose);
                         checkBox.setChecked(!checkBox.isChecked());
                         if (checkBox.isChecked()) {
-                            ((FilePickActivity) getActivity()).selectedFiles.add(pickerFile);
+                            ((FilePickerActivity) getActivity()).selectedFiles.add(pickerFile);
                         } else {
-                            ((FilePickActivity) getActivity()).selectedFiles.remove(pickerFile);
+                            ((FilePickerActivity) getActivity()).selectedFiles.remove(pickerFile);
                         }
+                        btnSelect.setText(String.format(getString(R.string.has_selected), ((FilePickerActivity) getActivity()).selectedFiles.size()));
                         break;
                     case CommonFileAdapter.TYPE_FOLDER:
                         goIntoDirectory(pickerFile);
@@ -116,19 +114,16 @@ public class FilePickFragment extends Fragment {
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (((FilePickerActivity) getActivity()).selectedFiles.isEmpty()) {
+                    Toast.makeText(getActivity(), "请至少选择一个文件", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (onResultListener != null) {
                     onResultListener.onResult();
                 }
             }
         });
 
-    }
-
-    /**
-     * 点击进入目录
-     */
-    private void goIntoDirectory(PickerFile pickerFile) {
-        ((FilePickActivity) getActivity()).goIntoDirectory(pickerFile);
     }
 
     /**
@@ -139,20 +134,26 @@ public class FilePickFragment extends Fragment {
     }
 
     /**
+     * 点击进入目录
+     */
+    public void goIntoDirectory(PickerFile pickerFile) {
+        ((FilePickerActivity) getActivity()).goIntoDirectory(pickerFile);
+    }
+
+    /**
      * 根据地址获取当前地址下的所有目录和文件，并且排序
      *
      * @param path
      * @return List<File>
      */
-    private List<PickerFile> getFileList(String path) {
+    public List<PickerFile> getFileList(String path) {
         File file = new File(path);
         List<PickerFile> list = FileUtils.getFileListByDirPath(path);
         return list;
     }
 
-    public FilePickFragment setOnResultListener(OnResultListener onResultListener) {
+    public void setOnResultListener(FilePickerFragment.OnResultListener onResultListener) {
         this.onResultListener = onResultListener;
-        return FilePickFragment.this;
     }
 
     public void setmToolbarColorResId(int mToolbarColorResId) {
@@ -163,8 +164,6 @@ public class FilePickFragment extends Fragment {
         this.mTitle = mTitle;
     }
 
-    public interface OnResultListener {
-        void onResult();
-    }
+    public abstract BaseFileAdapter initAdapter();
 
 }

@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:src="@drawable/icon_doc" />
+        android:src="@drawable/ic_doc" />
 
     <CheckBox
         android:id="@+id/cb_choose"
