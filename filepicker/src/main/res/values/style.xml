@@ -13,4 +13,20 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:backgroundDimEnabled">true</item>
     </style>
+
+    <style name="list_name">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/textGrayDark</item>
+    </style>
+
+    <style name="item_text_name">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textColor">#101010</item>
+        <item name="android:gravity">left</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

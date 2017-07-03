@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_item_doc"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_rectangle_bg_white_ripple"
+    android:paddingBottom="15dp"
+    android:paddingLeft="15dp"
+    android:paddingTop="15dp">
+
+    <ImageView
+        android:id="@+id/iv_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:src="@drawable/icon_doc" />
+
+    <CheckBox
+        android:id="@+id/cb_choose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:clickable="false"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="9dp"
+        android:layout_toLeftOf="@+id/cb_choose"
+        android:layout_toRightOf="@+id/iv_type"
+        android:ellipsize="middle"
+        android:paddingRight="10dp"
+        android:singleLine="true"
+        android:textAppearance="@style/list_name"
+        tools:text="文件夹名称文件夹名称文件夹名称文件夹名称文件夹名称文件夹名称" />
+
+</RelativeLayout>
