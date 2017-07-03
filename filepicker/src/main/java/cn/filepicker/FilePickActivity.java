@@ -1,11 +1,13 @@
 package cn.filepicker;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,25 +20,41 @@ import cn.filepicker.utils.FragmentUtils;
 
 public class FilePickActivity extends AppCompatActivity {
 
-    public List<PickerFile> selectedFiles = new ArrayList<>();
-    public List<PickerFile> mDefaultFiles = new ArrayList<>();
+    private static final String EXTRA_SELECTED_FILES = "extra_selected_files";
+
+    public List<PickerFile> selectedFiles;
+    public int toolbarColorResId;
+
+    public static Intent getStartIntent(Context context, List<PickerFile> selectedFiles) {
+        Intent intent = new Intent(context, FilePickActivity.class);
+        intent.putExtra(EXTRA_SELECTED_FILES, (Serializable) selectedFiles);
+        return intent;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container);
 
-        selectedFiles = mDefaultFiles;
+        selectedFiles = (List<PickerFile>) getIntent().getSerializableExtra(EXTRA_SELECTED_FILES);
+        if (selectedFiles == null) {
+            selectedFiles = new ArrayList<>();
+        }
+        toolbarColorResId = R.color.filepicker_colorPrimary;
 
         FilePickFragment filePickFragment = FilePickFragment.newInstance(Environment.getExternalStorageDirectory().getAbsolutePath());
         filePickFragment.setOnResultListener(onResultListener);
+        filePickFragment.setmToolbarColorResId(toolbarColorResId);
+        filePickFragment.setTitle("文件选择器");
         FragmentUtils.replaceFragmentToActivity(getSupportFragmentManager(),
                 filePickFragment, R.id.fragment_container);
     }
 
-    public void goIntoDirectory(String mPath) {
-        FilePickFragment filePickFragment = FilePickFragment.newInstance(mPath);
+    public void goIntoDirectory(PickerFile pickerFile) {
+        FilePickFragment filePickFragment = FilePickFragment.newInstance(pickerFile.getLocation());
         filePickFragment.setOnResultListener(onResultListener);
+        filePickFragment.setmToolbarColorResId(toolbarColorResId);
+        filePickFragment.setTitle(pickerFile.getName());
         FragmentUtils.addFragmentToActivity(getSupportFragmentManager(),
                 filePickFragment, R.id.fragment_container);
     }
@@ -44,7 +62,10 @@ public class FilePickActivity extends AppCompatActivity {
     FilePickFragment.OnResultListener onResultListener = new FilePickFragment.OnResultListener() {
         @Override
         public void onResult() {
-            Toast.makeText(FilePickActivity.this, selectedFiles.size() + "", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent();
+            intent.putExtra("data", (Serializable) selectedFiles);
+            setResult(RESULT_OK, intent);
+            finish();
         }
     };
 

@@ -1,10 +1,12 @@
 package cn.filepicker.model;
 
+import java.io.Serializable;
+
 /**
  * Created by cloudist on 2017/7/2.
  */
 
-public abstract class ItemEntity {
+public abstract class ItemEntity implements Serializable{
 
     int type;
     boolean isChecked;
