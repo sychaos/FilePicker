@@ -1,4 +1,4 @@
-package cn.filepicker;
+package cn.filepicker.base;
 
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,6 +19,9 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.List;
 
+import cn.filepicker.FilePickerActivity;
+import cn.filepicker.FilePickerFragment;
+import cn.filepicker.R;
 import cn.filepicker.adapter.BaseFileAdapter;
 import cn.filepicker.adapter.CommonFileAdapter;
 import cn.filepicker.model.PickerFile;

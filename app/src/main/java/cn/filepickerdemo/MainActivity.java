@@ -9,7 +9,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import cn.filepicker.FilePickerActivity;
-import cn.filepicker.FilePickerBaseActivity;
+import cn.filepicker.base.FilePickerBaseActivity;
 import cn.filepicker.model.PickerFile;
 
 public class MainActivity extends AppCompatActivity {

@@ -10,5 +10,6 @@
 
     <!--87%-->
     <color name="textGrayDark">#DE000000</color>
-    <color name="textGrayMed">#AE000000</color>
+    <color name="textGrayMed">#89000000</color>
+    <color name="textGrayLight">#60000000</color>
 </resources>

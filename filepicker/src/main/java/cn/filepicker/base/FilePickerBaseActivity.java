@@ -1,4 +1,4 @@
-package cn.filepicker;
+package cn.filepicker.base;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.filepicker.FilePickerFragment;
+import cn.filepicker.R;
 import cn.filepicker.model.PickerFile;
 import cn.filepicker.utils.FragmentUtils;
 

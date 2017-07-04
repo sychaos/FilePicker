@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import cn.filepicker.adapter.BaseFileAdapter;
 import cn.filepicker.adapter.CommonFileAdapter;
+import cn.filepicker.base.FilePickerBaseFragment;
 
 /**
  * Created by cloudist on 2017/7/3.

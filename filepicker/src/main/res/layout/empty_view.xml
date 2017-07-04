@@ -2,24 +2,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/filepicker_white">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_empty"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:padding="12dp"
-        android:text="暂无数据"
-        android:textColor="@color/textGrayMed"
-        android:textSize="18sp" />
+    <View
+        android:id="@+id/anchor_center"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true" />
 
     <ImageView
-        android:id="@+id/iv_empty"
+        android:id="@+id/img_placeholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/tv_empty"
+        android:layout_above="@+id/anchor_center"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/ic_empty" />
+        android:layout_marginBottom="-6dp"
+        android:minHeight="190dp"
+        android:minWidth="190dp"
+        android:src="@drawable/ic_empty" />
+
+    <TextView
+        android:id="@+id/text_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img_placeholder"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="暂无数据"
+        android:textAppearance="@style/text_light_14" />
 </RelativeLayout>

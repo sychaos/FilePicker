@@ -23,11 +23,14 @@ public class CommonFileAdapter extends BaseFileAdapter {
     public static final int TYPE_DOC = 1001;
     public static final int TYPE_FOLDER = 1002;
     public static final int TYPE_DIVIDER = 1003;
+    public static final int TYPE_EMPTYE = 1004;
 
     public CommonFileAdapter(Context mContext, List<PickerFile> mData) {
         this.mContext = mContext;
-        if (mData == null) {
+        if (mData == null || mData.isEmpty()) {
             mData = new ArrayList<>();
+            PickerFile pickerFile = new PickerFile(TYPE_EMPTYE);
+            mData.add(pickerFile);
         }
         this.mData = mData;
     }
@@ -45,6 +48,9 @@ public class CommonFileAdapter extends BaseFileAdapter {
                 break;
             case TYPE_DIVIDER:
                 viewGroup = (ViewGroup) mInflater.inflate(R.layout.common_divider, parent, false);
+                break;
+            case TYPE_EMPTYE:
+                viewGroup = (ViewGroup) mInflater.inflate(R.layout.empty_view, parent, false);
                 break;
         }
         return new ViewHolder(viewGroup);
@@ -65,6 +71,8 @@ public class CommonFileAdapter extends BaseFileAdapter {
                 folderName.setText(pickerFile.getName());
                 break;
             case TYPE_DIVIDER:
+                break;
+            case TYPE_EMPTYE:
                 break;
         }
         if (onClickListener != null) {

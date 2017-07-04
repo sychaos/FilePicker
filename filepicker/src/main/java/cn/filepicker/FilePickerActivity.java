@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import java.io.Serializable;
 import java.util.List;
 
+import cn.filepicker.base.FilePickerBaseActivity;
 import cn.filepicker.model.PickerFile;
 
 /**
@@ -27,8 +28,8 @@ public class FilePickerActivity extends FilePickerBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container);
 
+        //TODO 解耦
         newFilePickerFragment(R.color.filepicker_colorPrimary);
-
     }
 
 }
