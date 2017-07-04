@@ -20,7 +20,7 @@
         </activity>
 
         android:theme="@style/AppTheme">
-        <activity android:name="cn.filepicker.FilePickerActivity"></activity>
+        <activity android:name="cn.filepicker.common.FilePickerActivity"></activity>
     </application>
 
 </manifest>

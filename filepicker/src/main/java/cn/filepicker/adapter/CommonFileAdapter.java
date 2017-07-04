@@ -25,14 +25,8 @@ public class CommonFileAdapter extends BaseFileAdapter {
     public static final int TYPE_DIVIDER = 1003;
     public static final int TYPE_EMPTYE = 1004;
 
-    public CommonFileAdapter(Context mContext, List<PickerFile> mData) {
+    public CommonFileAdapter(Context mContext) {
         this.mContext = mContext;
-        if (mData == null || mData.isEmpty()) {
-            mData = new ArrayList<>();
-            PickerFile pickerFile = new PickerFile(TYPE_EMPTYE);
-            mData.add(pickerFile);
-        }
-        this.mData = mData;
     }
 
     @Override
@@ -92,12 +86,14 @@ public class CommonFileAdapter extends BaseFileAdapter {
         }
     }
 
-    public List<PickerFile> getmData() {
-        return mData;
-    }
-
-    public void setmData(List<PickerFile> mData) {
-        this.mData = mData;
+    @Override
+    public void setData(List<PickerFile> mData) {
+        if (mData == null || mData.isEmpty()) {
+            mData = new ArrayList<>();
+            PickerFile pickerFile = new PickerFile(TYPE_EMPTYE);
+            mData.add(pickerFile);
+        }
+        super.setData(mData);
     }
 
     public List<PickerFile> getSelectedData() {

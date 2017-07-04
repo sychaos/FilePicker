@@ -41,14 +41,6 @@ public abstract class BaseFileAdapter extends RecyclerView.Adapter<RecyclerView.
         return mData.get(position).getItemType();
     }
 
-    public List<PickerFile> getmData() {
-        return mData;
-    }
-
-    public void setmData(List<PickerFile> mData) {
-        this.mData = mData;
-    }
-
     public List<PickerFile> getSelectedData() {
         return mSelectedData;
     }
@@ -66,6 +58,13 @@ public abstract class BaseFileAdapter extends RecyclerView.Adapter<RecyclerView.
 
     public void setOnClickListener(OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
+    }
+
+    public void setData(List<PickerFile> mData) {
+        if (mData == null) {
+            mData = new ArrayList<>();
+        }
+        this.mData = mData;
     }
 
     public interface OnClickListener {
