@@ -3,15 +3,14 @@
     <color name="filepicker_toolbar">#00838f</color>
     <color name="filepicker_white">#ffffff</color>
     <color name="filepicker_colorGray">#e7eeee</color>
-    <color name="filepicker_textcolor">#00838F</color>
     <color name="filepicker_divider">#30000000</color>
     <color name="filepicker_background">#f2f2f2</color>
 
-    <color name="filepicker_colorPrimary">#303F9F</color>
-
     <color name="filepicker_transparent">#00000000</color>
     <!--87%-->
-    <color name="textGrayDark">#DE000000</color>
-    <color name="textGrayMed">#89000000</color>
-    <color name="textGrayLight">#60000000</color>
+    <color name="filepicker_textGrayDark">#DE000000</color>
+    <!--54%-->
+    <color name="filepicker_textGrayMed">#89000000</color>
+    <!--20%-->
+    <color name="filepicker_textGrayLight">#60000000</color>
 </resources>

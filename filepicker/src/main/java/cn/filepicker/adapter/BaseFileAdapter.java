@@ -21,6 +21,10 @@ public abstract class BaseFileAdapter extends RecyclerView.Adapter<RecyclerView.
     public Context mContext;
     public OnClickListener onClickListener;
 
+    public BaseFileAdapter(Context mContext) {
+        this.mContext = mContext;
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return null;

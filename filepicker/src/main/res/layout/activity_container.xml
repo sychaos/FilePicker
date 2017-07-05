@@ -31,7 +31,7 @@
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:text="@string/confirm"
-            android:textColor="@color/textGrayMed"
+            android:textColor="@color/filepicker_textGrayMed"
             android:textSize="15sp" />
 
         <View
@@ -51,7 +51,7 @@
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:text="@string/preview"
-            android:textColor="@color/textGrayMed"
+            android:textColor="@color/filepicker_textGrayMed"
             android:textSize="15sp" />
 
     </RelativeLayout>

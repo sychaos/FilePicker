@@ -26,7 +26,7 @@ public class CommonFileAdapter extends BaseFileAdapter {
     public static final int TYPE_EMPTYE = 1004;
 
     public CommonFileAdapter(Context mContext) {
-        this.mContext = mContext;
+        super(mContext);
     }
 
     @Override

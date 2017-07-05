@@ -28,6 +28,7 @@ import cn.filepicker.utils.FragmentUtils;
 public abstract class FilePickerBaseActivity extends AppCompatActivity {
 
     protected static final String EXTRA_SELECTED_FILES = "extra_selected_files";
+    protected static final String EXTRA_TITLE_COLOR = "extra_title_color";
 
     public static final String EXTRA_DATA = "extra_data";
 
@@ -108,7 +109,7 @@ public abstract class FilePickerBaseActivity extends AppCompatActivity {
     };
 
     public void newRootFragment() {
-        BaseFileAdapter baseFileAdapter = initFilePicker();
+        BaseFileAdapter baseFileAdapter = initAdapter();
         FilePickerFragment filePickerFragment = FilePickerFragment.newInstance();
         filePickerFragment.setOnResultListener(onResultListener);
         filePickerFragment.setmToolbarColorResId(toolbarColorResId);
@@ -120,7 +121,7 @@ public abstract class FilePickerBaseActivity extends AppCompatActivity {
     }
 
     public void newDirectoryFragment(FileItem fileItem) {
-        BaseFileAdapter baseFileAdapter = initFilePicker();
+        BaseFileAdapter baseFileAdapter = initAdapter();
         FilePickerFragment filePickerFragment = FilePickerFragment.newInstance();
         filePickerFragment.setOnResultListener(onResultListener);
         filePickerFragment.setmToolbarColorResId(toolbarColorResId);
@@ -135,7 +136,7 @@ public abstract class FilePickerBaseActivity extends AppCompatActivity {
         if (selectedFiles.isEmpty()) {
             return;
         }
-        BaseFileAdapter baseFileAdapter = initFilePicker();
+        BaseFileAdapter baseFileAdapter = initAdapter();
         FilePickerFragment filePickerFragment = FilePickerFragment.newInstance();
         filePickerFragment.setOnResultListener(onResultListener);
         filePickerFragment.setmToolbarColorResId(toolbarColorResId);
@@ -146,7 +147,7 @@ public abstract class FilePickerBaseActivity extends AppCompatActivity {
                 filePickerFragment, R.id.fragment_container);
     }
 
-    public abstract BaseFileAdapter initFilePicker();
+    public abstract BaseFileAdapter initAdapter();
 
     public interface OnResultListener {
         void onResult();

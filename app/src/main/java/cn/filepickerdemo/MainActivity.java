@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import java.util.List;
 
-import cn.filepicker.common.FilePickerActivity;
+import cn.filepicker.FilePicker;
 import cn.filepicker.base.FilePickerBaseActivity;
 import cn.filepicker.model.FileItem;
 
@@ -27,8 +27,12 @@ public class MainActivity extends AppCompatActivity {
         btnCommon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(
-                        FilePickerActivity.getStartIntent(MainActivity.this, files), 1004);
+                FilePicker.builder()
+                        .withActivity(MainActivity.this)
+                        .withRequestCode(1004)
+                        .withSelectedFiles(files)
+                        .withTitleColor(R.color.filepicker_colorPrimary)
+                        .build();
             }
         });
 
@@ -46,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == 1004) {
+            if (requestCode == 1004 || requestCode == 1005) {
                 files = (List<FileItem>) data.getSerializableExtra(FilePickerBaseActivity.EXTRA_DATA);
             }
         }

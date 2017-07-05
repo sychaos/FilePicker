@@ -16,12 +16,12 @@
 
     <style name="list_name">
         <item name="android:textSize">15sp</item>
-        <item name="android:textColor">@color/textGrayDark</item>
+        <item name="android:textColor">@color/filepicker_textGrayDark</item>
     </style>
 
     <style name="text_light_14">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/textGrayLight</item>
+        <item name="android:textColor">@color/filepicker_textGrayLight</item>
     </style>
 
     <style name="item_text_name">
