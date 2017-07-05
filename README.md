@@ -6,7 +6,7 @@
 
 ![](gif/display.gif)
 
-## Beginning
+## Usage
 
 ### Step 1. add this to manifest
 
@@ -31,7 +31,7 @@
      }
 ```
 
-## Common
+### Step 3. start
 
 ```Java
     FilePicker.builder()
@@ -42,7 +42,7 @@
         .build();
 ```
 
-## Customized Adapter
+## Advance Usage(Customized Adapter)
 
 ### Step 1. new an Adapter extends BaseFileAdapter like this
 
