@@ -3,10 +3,6 @@ package cn.filepicker.filter;
 import java.io.File;
 import java.io.FileFilter;
 
-/**
- * 作者：Leon
- * 时间：2017/3/24 13:43
- */
 public class FilePickerFilter implements FileFilter {
     private String[] mTypes;
 

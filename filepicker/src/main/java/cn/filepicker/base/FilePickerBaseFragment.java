@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,7 +18,8 @@ import android.widget.Toast;
 import cn.filepicker.R;
 import cn.filepicker.adapter.BaseFileAdapter;
 import cn.filepicker.adapter.CommonFileAdapter;
-import cn.filepicker.model.PickerFile;
+import cn.filepicker.model.FileItem;
+import cn.filepicker.view.RecyclerViewDivider;
 
 /**
  * Created by cloudist on 2017/7/4.
@@ -36,7 +36,6 @@ public class FilePickerBaseFragment extends Fragment {
 
     RecyclerView mRecyclerView;
     ImageView btnBack;
-    Button btnSelect;
 
     private int mToolbarColorResId;
 
@@ -57,38 +56,31 @@ public class FilePickerBaseFragment extends Fragment {
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         TextView toolbarTitle = (TextView) view.findViewById(R.id.toolbar_title);
-        btnSelect = (Button) view.findViewById(R.id.btn_select);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         btnBack = (ImageView) view.findViewById(R.id.btn_nav_back);
 
         toolbar.setBackgroundResource(mToolbarColorResId);
         toolbarTitle.setText(mTitle);
 
-        btnSelect.setText(String.format(getString(R.string.has_selected), ((FilePickerBaseActivity) getActivity()).selectedFiles.size()));
-
         mAdapter.setDefaultData(((FilePickerBaseActivity) getActivity()).selectedFiles);
         mAdapter.setOnClickListener(new CommonFileAdapter.OnClickListener() {
             @Override
-            public void onClick(View view, final PickerFile pickerFile) {
-                switch (pickerFile.getItemType()) {
+            public void onClick(View view, final FileItem fileItem) {
+                switch (fileItem.getItemType()) {
                     case CommonFileAdapter.TYPE_DOC:
                         final CheckBox checkBox = (CheckBox) view.findViewById(R.id.cb_choose);
                         checkBox.setChecked(!checkBox.isChecked());
-                        if (checkBox.isChecked()) {
-                            ((FilePickerBaseActivity) getActivity()).selectedFiles.add(pickerFile);
-                        } else {
-                            ((FilePickerBaseActivity) getActivity()).selectedFiles.remove(pickerFile);
-                        }
-                        btnSelect.setText(String.format(getString(R.string.has_selected), ((FilePickerBaseActivity) getActivity()).selectedFiles.size()));
+                        ((FilePickerBaseActivity) getActivity()).selectedFilesChange(checkBox.isChecked(), fileItem);
                         break;
                     case CommonFileAdapter.TYPE_FOLDER:
-                        goIntoDirectory(pickerFile);
+                        goIntoDirectory(fileItem);
                         break;
                 }
             }
         });
 
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addItemDecoration(new RecyclerViewDivider(getContext(), RecyclerViewDivider.VERTICAL_LIST));
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
@@ -96,19 +88,6 @@ public class FilePickerBaseFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();
-            }
-        });
-
-        btnSelect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (((FilePickerBaseActivity) getActivity()).selectedFiles.isEmpty()) {
-                    Toast.makeText(getActivity(), "请至少选择一个文件", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (onResultListener != null) {
-                    onResultListener.onResult();
-                }
             }
         });
 
@@ -124,8 +103,8 @@ public class FilePickerBaseFragment extends Fragment {
     /**
      * 点击进入目录
      */
-    public void goIntoDirectory(PickerFile pickerFile) {
-        ((FilePickerBaseActivity) getActivity()).newDirectoryFragment(pickerFile);
+    public void goIntoDirectory(FileItem fileItem) {
+        ((FilePickerBaseActivity) getActivity()).newDirectoryFragment(fileItem);
     }
 
     public void setOnResultListener(FilePickerBaseActivity.OnResultListener onResultListener) {

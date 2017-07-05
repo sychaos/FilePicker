@@ -1,4 +1,4 @@
-package cn.filepicker.common;
+package cn.filepickerdemo;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,28 +6,26 @@ import android.content.Intent;
 import java.io.Serializable;
 import java.util.List;
 
-import cn.filepicker.R;
 import cn.filepicker.adapter.BaseFileAdapter;
 import cn.filepicker.adapter.CommonFileAdapter;
 import cn.filepicker.base.FilePickerBaseActivity;
 import cn.filepicker.model.FileItem;
 
 /**
- * Created by cloudist on 2017/7/3.
+ * Created by cloudist on 2017/7/5.
  */
 
-public class FilePickerActivity extends FilePickerBaseActivity {
+public class CustomActivity extends FilePickerBaseActivity {
 
     public static Intent getStartIntent(Context context, List<FileItem> selectedFiles) {
-        Intent intent = new Intent(context, FilePickerActivity.class);
+        Intent intent = new Intent(context, CustomActivity.class);
         intent.putExtra(EXTRA_SELECTED_FILES, (Serializable) selectedFiles);
         return intent;
     }
 
     @Override
     public BaseFileAdapter initFilePicker() {
-        toolbarColorResId = R.color.filepicker_colorPrimary;
-        return new CommonFileAdapter(FilePickerActivity.this);
+        toolbarColorResId = R.color.colorAccent;
+        return new CommonFileAdapter(CustomActivity.this);
     }
-
 }

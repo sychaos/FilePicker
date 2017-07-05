@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.filepicker.R;
-import cn.filepicker.model.PickerFile;
+import cn.filepicker.model.FileItem;
 
 /**
  * Created by cloudist on 2017/6/30.
@@ -51,18 +51,18 @@ public class CommonFileAdapter extends BaseFileAdapter {
     }
 
     @Override
-    public void initData(RecyclerView.ViewHolder holder, final PickerFile pickerFile, int position) {
+    public void initData(RecyclerView.ViewHolder holder, final FileItem fileItem, int position) {
         final View view = holder.itemView;
         switch (holder.getItemViewType()) {
             case TYPE_DOC:
                 final CheckBox docCbChoose = (CheckBox) view.findViewById(R.id.cb_choose);
                 TextView docName = (TextView) view.findViewById(R.id.tv_name);
-                docCbChoose.setChecked(mSelectedData.contains(pickerFile));
-                docName.setText(pickerFile.getName());
+                docCbChoose.setChecked(mSelectedData.contains(fileItem));
+                docName.setText(fileItem.getName());
                 break;
             case TYPE_FOLDER:
                 TextView folderName = (TextView) view.findViewById(R.id.tv_name);
-                folderName.setText(pickerFile.getName());
+                folderName.setText(fileItem.getName());
                 break;
             case TYPE_DIVIDER:
                 break;
@@ -73,7 +73,7 @@ public class CommonFileAdapter extends BaseFileAdapter {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onClickListener.onClick(view, pickerFile);
+                    onClickListener.onClick(view, fileItem);
                 }
             });
         }
@@ -87,20 +87,20 @@ public class CommonFileAdapter extends BaseFileAdapter {
     }
 
     @Override
-    public void setData(List<PickerFile> mData) {
+    public void setData(List<FileItem> mData) {
         if (mData == null || mData.isEmpty()) {
             mData = new ArrayList<>();
-            PickerFile pickerFile = new PickerFile(TYPE_EMPTYE);
-            mData.add(pickerFile);
+            FileItem fileItem = new FileItem(TYPE_EMPTYE);
+            mData.add(fileItem);
         }
         super.setData(mData);
     }
 
-    public List<PickerFile> getSelectedData() {
+    public List<FileItem> getSelectedData() {
         return mSelectedData;
     }
 
-    public void setDefaultData(List<PickerFile> defaultData) {
+    public void setDefaultData(List<FileItem> defaultData) {
         if (defaultData == null) {
             defaultData = new ArrayList<>();
         }

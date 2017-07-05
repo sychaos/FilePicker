@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.filepicker.model.PickerFile;
+import cn.filepicker.model.FileItem;
 
 /**
  * Created by cloudist on 2017/7/4.
@@ -16,8 +16,8 @@ import cn.filepicker.model.PickerFile;
 
 public abstract class BaseFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public List<PickerFile> mSelectedData = new ArrayList<>();
-    public List<PickerFile> mData = new ArrayList<>();
+    public List<FileItem> mSelectedData = new ArrayList<>();
+    public List<FileItem> mData = new ArrayList<>();
     public Context mContext;
     public OnClickListener onClickListener;
 
@@ -41,11 +41,11 @@ public abstract class BaseFileAdapter extends RecyclerView.Adapter<RecyclerView.
         return mData.get(position).getItemType();
     }
 
-    public List<PickerFile> getSelectedData() {
+    public List<FileItem> getSelectedData() {
         return mSelectedData;
     }
 
-    public void setDefaultData(List<PickerFile> defaultData) {
+    public void setDefaultData(List<FileItem> defaultData) {
         if (defaultData == null) {
             defaultData = new ArrayList<>();
         }
@@ -60,7 +60,7 @@ public abstract class BaseFileAdapter extends RecyclerView.Adapter<RecyclerView.
         this.onClickListener = onClickListener;
     }
 
-    public void setData(List<PickerFile> mData) {
+    public void setData(List<FileItem> mData) {
         if (mData == null) {
             mData = new ArrayList<>();
         }
@@ -68,8 +68,8 @@ public abstract class BaseFileAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
     public interface OnClickListener {
-        void onClick(View view, PickerFile pickerFile);
+        void onClick(View view, FileItem fileItem);
     }
 
-    public abstract void initData(RecyclerView.ViewHolder holder, PickerFile pickerFile, int position);
+    public abstract void initData(RecyclerView.ViewHolder holder, FileItem fileItem, int position);
 }

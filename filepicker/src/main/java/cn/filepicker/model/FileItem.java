@@ -4,14 +4,14 @@ package cn.filepicker.model;
  * Created by cloudist on 2017/6/30.
  */
 
-public class PickerFile extends ItemEntity {
+public class FileItem extends ItemEntity {
 
     String name;
     String location;
     long size;
 
 
-    public PickerFile(int type) {
+    public FileItem(int type) {
         super(type);
     }
 
@@ -49,8 +49,8 @@ public class PickerFile extends ItemEntity {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof PickerFile) {
-            PickerFile file = (PickerFile) obj;
+        if (obj instanceof FileItem) {
+            FileItem file = (FileItem) obj;
             if (this.location.equals(file.getLocation())) {
                 return true;
             }

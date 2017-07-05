@@ -1,7 +1,6 @@
 package cn.filepicker.utils;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,41 +8,37 @@ import java.util.Collections;
 import java.util.List;
 
 import cn.filepicker.adapter.CommonFileAdapter;
-import cn.filepicker.filter.FilePickerFilter;
-import cn.filepicker.model.PickerFile;
+import cn.filepicker.model.FileItem;
 
-/**
- * Created by Dimorinny on 24.10.15.
- */
 public class FileUtils {
-    public static List<PickerFile> getFileListByDirPath(String path) {
+    public static List<FileItem> getFileListByDirPath(String path) {
         File directory = new File(path);
         File[] files = directory.listFiles();
 
-        List<PickerFile> pickerFiles = new ArrayList<>();
+        List<FileItem> fileItems = new ArrayList<>();
 
         if (files == null) {
-            return pickerFiles;
+            return fileItems;
         }
 
         List<File> result = Arrays.asList(files);
         Collections.sort(result, new FileComparator());
 
         for (File file : result) {
-            PickerFile pickerFile = null;
+            FileItem fileItem = null;
             if (file.isDirectory()) {
-                pickerFile = new PickerFile(CommonFileAdapter.TYPE_FOLDER);
+                fileItem = new FileItem(CommonFileAdapter.TYPE_FOLDER);
             } else {
-                pickerFile = new PickerFile(CommonFileAdapter.TYPE_DOC);
+                fileItem = new FileItem(CommonFileAdapter.TYPE_DOC);
             }
 
-            pickerFile.setName(file.getName());
-            pickerFile.setLocation(file.getAbsolutePath());
-            pickerFile.setSize(file.length());
+            fileItem.setName(file.getName());
+            fileItem.setLocation(file.getAbsolutePath());
+            fileItem.setSize(file.length());
 
-            pickerFiles.add(pickerFile);
+            fileItems.add(fileItem);
         }
-        return pickerFiles;
+        return fileItems;
     }
 
     public static String cutLastSegmentOfPath(String path) {

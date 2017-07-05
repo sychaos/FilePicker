@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">FilePicker</string>
 
-    <string name="select">选择</string>
+    <string name="confirm">确定</string>
+    <string name="preview">预览(%1$d)</string>
     <string name="has_selected">已选择(%1$d)</string>
     <string name="no_sd_card">手机没有sd卡</string>
 </resources>

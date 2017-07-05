@@ -14,22 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:clipToPadding="false"
-        android:paddingTop="8dp" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/filepicker_divider"/>
-
-    <Button
-        android:id="@+id/btn_select"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@drawable/selector_rectangle_bg_white_ripple"
-        android:gravity="center"
-        android:text="@string/select"
-        android:textColor="@color/textGrayMed"
-        android:textSize="15sp" />
+        android:clipToPadding="false" />
 
 </LinearLayout>
