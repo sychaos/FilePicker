@@ -4,12 +4,27 @@
 
 ### Beginning
 
-add this to manifest
+    Step 1. add this to manifest
 
 ```xml
      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
      <activity android:name="cn.filepicker.common.FilePickerActivity"/>
+```
+
+    Step 2. override onActivityResult like this
+
+```Java
+     @Override
+     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+         super.onActivityResult(requestCode, resultCode, data);
+         if (resultCode == RESULT_OK) {
+             if (requestCode == 1004 || requestCode == 1005) {
+                 files = (List<FileItem>) data.getSerializableExtra(FilePickerBaseActivity.EXTRA_DATA);
+             }
+         }
+
+     }
 ```
 
 ### Common
