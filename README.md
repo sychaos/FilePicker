@@ -1,7 +1,5 @@
 # FilePicker
 
-## Sample Code Common
-
 ## Screenshot
 
 ![](gif/display.gif)
