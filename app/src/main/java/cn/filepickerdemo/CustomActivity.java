@@ -28,8 +28,8 @@ public class CustomActivity extends FilePickerBaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         toolbarColorResId = getIntent().getIntExtra(EXTRA_TITLE_COLOR, R.color.colorAccent);
+        super.onCreate(savedInstanceState);
     }
 
     @Override
