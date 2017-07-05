@@ -51,7 +51,7 @@ public abstract class FilePickerBaseActivity extends AppCompatActivity {
         btnSelect = (Button) findViewById(R.id.btn_select);
         btnPreview = (Button) findViewById(R.id.btn_preview);
 
-        btnPreview.setText(String.format(getString(R.string.has_selected), selectedFiles.size()));
+        btnPreview.setText(String.format(getString(R.string.preview), selectedFiles.size()));
 
         newRootFragment();
 
@@ -95,7 +95,7 @@ public abstract class FilePickerBaseActivity extends AppCompatActivity {
         } else {
             selectedFiles.remove(fileItem);
         }
-        btnPreview.setText(String.format(getString(R.string.has_selected), selectedFiles.size()));
+        btnPreview.setText(String.format(getString(R.string.preview), selectedFiles.size()));
     }
 
     public OnResultListener onResultListener = new OnResultListener() {
