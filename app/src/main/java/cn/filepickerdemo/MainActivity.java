@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivityForResult(
-                        CustomActivity.getStartIntent(MainActivity.this, files), 1005);
+                        CustomActivity.getStartIntent(MainActivity.this, files, R.color.colorPrimaryDark), 1005);
             }
         });
 
