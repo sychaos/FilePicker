@@ -2,9 +2,13 @@
 
 ## Sample Code Common
 
-### Beginning
+## Screenshot
 
-    Step 1. add this to manifest
+![](gif/display.gif)
+
+## Beginning
+
+### Step 1. add this to manifest
 
 ```xml
      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -12,7 +16,7 @@
      <activity android:name="cn.filepicker.common.FilePickerActivity"/>
 ```
 
-    Step 2. override onActivityResult like this
+### Step 2. override onActivityResult like this
 
 ```Java
      @Override
@@ -27,7 +31,7 @@
      }
 ```
 
-### Common
+## Common
 
 ```Java
     FilePicker.builder()
@@ -38,9 +42,9 @@
         .build();
 ```
 
-### Customized Adapter
+## Customized Adapter
 
-    Step 1. new an Adapter extends BaseFileAdapter like this
+### Step 1. new an Adapter extends BaseFileAdapter like this
 
 ```Java
     public class CommonFileAdapter extends BaseFileAdapter {
@@ -143,7 +147,7 @@
     }
 ```
 
-    Step 2. new an Activity extends FilePickerBaseActivity like this
+### Step 2. new an Activity extends FilePickerBaseActivity like this
 
 ```Java
     public class CustomActivity extends FilePickerBaseActivity {
@@ -169,7 +173,8 @@
     }
 ```
 
-    Step 3. start
+### Step 3. start
+
 ```Java
     startActivityForResult(
        CustomActivity.getStartIntent(MainActivity.this, files, R.color.colorPrimaryDark), 1005);

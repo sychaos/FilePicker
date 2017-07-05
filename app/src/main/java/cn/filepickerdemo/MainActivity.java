@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
                         .withActivity(MainActivity.this)
                         .withRequestCode(1004)
                         .withSelectedFiles(files)
-                        .withTitleColor(R.color.filepicker_colorPrimary)
+                        .withTitleColor(R.color.colorPrimaryDark)
                         .build();
             }
         });
