@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_item_doc"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="56dp"
     android:background="@drawable/selector_rectangle_bg_white_ripple"
     android:paddingBottom="15dp"
     android:paddingLeft="15dp"
