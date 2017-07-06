@@ -10,14 +10,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import cn.filepicker.R;
 import cn.filepicker.adapter.BaseFileAdapter;
 import cn.filepicker.adapter.CommonFileAdapter;
+import cn.filepicker.event.FileRefreshEvent;
 import cn.filepicker.model.FileItem;
 import cn.filepicker.view.RecyclerViewDivider;
 
@@ -27,17 +33,24 @@ import cn.filepicker.view.RecyclerViewDivider;
 
 public class FilePickerBaseFragment extends Fragment {
 
+    public static final int TYPE_ROOT = 1010;
+    public static final int TYPE_DIRECTORY = 1011;
+    public static final int TYPE_SELECTED = 1012;
+
     FilePickerBaseActivity.OnResultListener onResultListener;
 
     private String mTitle;
     public BaseFileAdapter mAdapter;
+    private int mToolbarColorResId;
 
     LinearLayoutManager mLayoutManager;
 
     RecyclerView mRecyclerView;
     ImageView btnBack;
+    Button btnSelect;
+    Button btnPreview;
 
-    private int mToolbarColorResId;
+    private int mType;
 
     @Nullable
     @Override
@@ -56,11 +69,16 @@ public class FilePickerBaseFragment extends Fragment {
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         TextView toolbarTitle = (TextView) view.findViewById(R.id.toolbar_title);
+
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         btnBack = (ImageView) view.findViewById(R.id.btn_nav_back);
+        btnSelect = (Button) view.findViewById(R.id.btn_select);
+        btnPreview = (Button) view.findViewById(R.id.btn_preview);
 
         toolbar.setBackgroundResource(mToolbarColorResId);
         toolbarTitle.setText(mTitle);
+
+        btnPreview.setText(String.format(getString(R.string.preview), ((FilePickerBaseActivity) getActivity()).selectedFiles.size()));
 
         mAdapter.setDefaultData(((FilePickerBaseActivity) getActivity()).selectedFiles);
         mAdapter.setOnClickListener(new CommonFileAdapter.OnClickListener() {
@@ -71,6 +89,12 @@ public class FilePickerBaseFragment extends Fragment {
                         final CheckBox checkBox = (CheckBox) view.findViewById(R.id.cb_choose);
                         checkBox.setChecked(!checkBox.isChecked());
                         ((FilePickerBaseActivity) getActivity()).selectedFilesChange(checkBox.isChecked(), fileItem);
+                        btnPreview.setText(String.format(getString(R.string.preview), ((FilePickerBaseActivity) getActivity()).selectedFiles.size()));
+                        if (mType == TYPE_SELECTED) {
+                            EventBus.getDefault().post(new FileRefreshEvent());
+                        } else if (mType == TYPE_ROOT || mType == TYPE_DIRECTORY) {
+                        } else {
+                        }
                         break;
                     case CommonFileAdapter.TYPE_FOLDER:
                         goIntoDirectory(fileItem);
@@ -91,6 +115,51 @@ public class FilePickerBaseFragment extends Fragment {
             }
         });
 
+        btnPreview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mType == TYPE_SELECTED) {
+                    return;
+                }
+                ((FilePickerBaseActivity) getActivity()).newSelectedFragment();
+            }
+        });
+
+        btnSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((FilePickerBaseActivity) getActivity()).selectedFiles.isEmpty()) {
+                    Toast.makeText(getActivity(), "请至少选择一个文件", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (onResultListener != null) {
+                    onResultListener.onResult();
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFileRefreshEvent(FileRefreshEvent event) {
+        if (mType == TYPE_SELECTED) {
+        } else if (mType == TYPE_ROOT || mType == TYPE_DIRECTORY) {
+            btnPreview.setText(String.format(getString(R.string.preview), ((FilePickerBaseActivity) getActivity()).selectedFiles.size()));
+            mAdapter.notifyDataSetChanged();
+        } else {
+        }
     }
 
     /**
@@ -123,4 +192,7 @@ public class FilePickerBaseFragment extends Fragment {
         this.mAdapter = mAdapter;
     }
 
+    public void setType(int mType) {
+        this.mType = mType;
+    }
 }

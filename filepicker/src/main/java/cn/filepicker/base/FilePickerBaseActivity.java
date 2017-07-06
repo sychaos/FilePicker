@@ -5,9 +5,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.Serializable;
@@ -35,9 +32,6 @@ public abstract class FilePickerBaseActivity extends AppCompatActivity {
     public List<FileItem> selectedFiles;
     public int toolbarColorResId;
 
-    Button btnSelect;
-    Button btnPreview;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,32 +42,7 @@ public abstract class FilePickerBaseActivity extends AppCompatActivity {
             selectedFiles = new ArrayList<>();
         }
 
-        btnSelect = (Button) findViewById(R.id.btn_select);
-        btnPreview = (Button) findViewById(R.id.btn_preview);
-
-        btnPreview.setText(String.format(getString(R.string.preview), selectedFiles.size()));
-
         newRootFragment();
-
-        btnPreview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                newSelectedFragment();
-            }
-        });
-
-        btnSelect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (selectedFiles.isEmpty()) {
-                    Toast.makeText(FilePickerBaseActivity.this, "请至少选择一个文件", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (onResultListener != null) {
-                    onResultListener.onResult();
-                }
-            }
-        });
 
     }
 
@@ -95,7 +64,6 @@ public abstract class FilePickerBaseActivity extends AppCompatActivity {
         } else {
             selectedFiles.remove(fileItem);
         }
-        btnPreview.setText(String.format(getString(R.string.preview), selectedFiles.size()));
     }
 
     public OnResultListener onResultListener = new OnResultListener() {
@@ -110,39 +78,46 @@ public abstract class FilePickerBaseActivity extends AppCompatActivity {
 
     public void newRootFragment() {
         BaseFileAdapter baseFileAdapter = initAdapter();
+        baseFileAdapter.setData(getFileList(Environment.getExternalStorageDirectory().getAbsolutePath()));
+
         FilePickerFragment filePickerFragment = FilePickerFragment.newInstance();
         filePickerFragment.setOnResultListener(onResultListener);
         filePickerFragment.setmToolbarColorResId(toolbarColorResId);
-        baseFileAdapter.setData(getFileList(Environment.getExternalStorageDirectory().getAbsolutePath()));
         filePickerFragment.setAdapter(baseFileAdapter);
         filePickerFragment.setTitle("文件选择器");
+        filePickerFragment.setType(FilePickerBaseFragment.TYPE_ROOT);
         FragmentUtils.replaceFragmentToActivity(getSupportFragmentManager(),
                 filePickerFragment, R.id.fragment_container);
     }
 
     public void newDirectoryFragment(FileItem fileItem) {
         BaseFileAdapter baseFileAdapter = initAdapter();
+        baseFileAdapter.setData(getFileList(fileItem.getLocation()));
+
         FilePickerFragment filePickerFragment = FilePickerFragment.newInstance();
         filePickerFragment.setOnResultListener(onResultListener);
         filePickerFragment.setmToolbarColorResId(toolbarColorResId);
-        baseFileAdapter.setData(getFileList(fileItem.getLocation()));
         filePickerFragment.setAdapter(baseFileAdapter);
         filePickerFragment.setTitle(fileItem.getName());
+        filePickerFragment.setType(FilePickerBaseFragment.TYPE_DIRECTORY);
         FragmentUtils.addFragmentToActivity(getSupportFragmentManager(),
                 filePickerFragment, R.id.fragment_container);
     }
 
+    //TODO 用new activity的方式试试
     public void newSelectedFragment() {
         if (selectedFiles.isEmpty()) {
             return;
         }
         BaseFileAdapter baseFileAdapter = initAdapter();
+        baseFileAdapter.setData(selectedFiles);
+
         FilePickerFragment filePickerFragment = FilePickerFragment.newInstance();
         filePickerFragment.setOnResultListener(onResultListener);
         filePickerFragment.setmToolbarColorResId(toolbarColorResId);
-        baseFileAdapter.setData(selectedFiles);
         filePickerFragment.setAdapter(baseFileAdapter);
         filePickerFragment.setTitle("已选文件");
+        filePickerFragment.setType(FilePickerBaseFragment.TYPE_SELECTED);
         FragmentUtils.addFragmentToActivity(getSupportFragmentManager(),
                 filePickerFragment, R.id.fragment_container);
     }
