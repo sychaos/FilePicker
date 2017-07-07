@@ -18,7 +18,7 @@
 ### Step 2. Add the dependency
 
 	dependencies {
-	        compile 'com.github.Cloudist:ImageViewer:1.0.2'
+	        compile 'com.github.sychaos:FilePicker:1.0.0'
 	}
 
 ### Step 3. add this to manifest
