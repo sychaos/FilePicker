@@ -28,7 +28,6 @@ public abstract class BaseFileAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater mInflater = LayoutInflater.from(mContext);
         ViewGroup viewGroup = initViewHolder(parent, viewType);
         return new ViewHolder(viewGroup);
     }

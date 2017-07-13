@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == 1004 || requestCode == 1005) {
+            if (requestCode == 1004) {
                 files = (List<FileItem>) data.getSerializableExtra(FilePickerBaseActivity.EXTRA_DATA);
             }
         }

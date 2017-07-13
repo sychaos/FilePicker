@@ -3,10 +3,10 @@ package cn.filepicker.base;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +51,6 @@ public abstract class FilePickerBaseActivity extends AppCompatActivity {
      * @return List<File>
      */
     public List<FileItem> getFileList(String path) {
-        File file = new File(path);
         List<FileItem> list = FileUtils.getFileListByDirPath(path);
         return list;
     }
@@ -78,11 +77,8 @@ public abstract class FilePickerBaseActivity extends AppCompatActivity {
         BaseFileAdapter baseFileAdapter = initAdapter();
         baseFileAdapter.setData(getFileList(Environment.getExternalStorageDirectory().getAbsolutePath()));
 
-        FilePickerCommonFragment filePickerCommonFragment = FilePickerCommonFragment.newInstance();
-        filePickerCommonFragment.setOnResultListener(onResultListener);
-        filePickerCommonFragment.setAdapter(baseFileAdapter);
-        filePickerCommonFragment.setTitle("文件选择器");
-        filePickerCommonFragment.setType(FilePickerBaseFragment.TYPE_ROOT);
+        FilePickerCommonFragment filePickerCommonFragment = getFilePickerCommonFragment(baseFileAdapter,
+                onResultListener, "文件选择器", FilePickerBaseFragment.TYPE_ROOT);
         FragmentUtils.replaceFragmentToActivity(getSupportFragmentManager(),
                 filePickerCommonFragment, R.id.fragment_container);
     }
@@ -91,11 +87,8 @@ public abstract class FilePickerBaseActivity extends AppCompatActivity {
         BaseFileAdapter baseFileAdapter = initAdapter();
         baseFileAdapter.setData(getFileList(fileItem.getLocation()));
 
-        FilePickerCommonFragment filePickerCommonFragment = FilePickerCommonFragment.newInstance();
-        filePickerCommonFragment.setOnResultListener(onResultListener);
-        filePickerCommonFragment.setAdapter(baseFileAdapter);
-        filePickerCommonFragment.setTitle(fileItem.getName());
-        filePickerCommonFragment.setType(FilePickerBaseFragment.TYPE_DIRECTORY);
+        FilePickerCommonFragment filePickerCommonFragment = getFilePickerCommonFragment(baseFileAdapter,
+                onResultListener, fileItem.getName(), FilePickerBaseFragment.TYPE_DIRECTORY);
         FragmentUtils.addFragmentToActivity(getSupportFragmentManager(),
                 filePickerCommonFragment, R.id.fragment_container);
     }
@@ -107,13 +100,21 @@ public abstract class FilePickerBaseActivity extends AppCompatActivity {
         BaseFileAdapter baseFileAdapter = initAdapter();
         baseFileAdapter.setData(selectedFiles);
 
+        FilePickerCommonFragment filePickerCommonFragment = getFilePickerCommonFragment(baseFileAdapter,
+                onResultListener, "已选文件", FilePickerBaseFragment.TYPE_SELECTED);
+        FragmentUtils.addFragmentToActivity(getSupportFragmentManager(),
+                filePickerCommonFragment, R.id.fragment_container);
+    }
+
+    @NonNull
+    private FilePickerCommonFragment getFilePickerCommonFragment(BaseFileAdapter baseFileAdapter,
+                                                                 OnResultListener onResultListener, String title, int typeRoot) {
         FilePickerCommonFragment filePickerCommonFragment = FilePickerCommonFragment.newInstance();
         filePickerCommonFragment.setOnResultListener(onResultListener);
         filePickerCommonFragment.setAdapter(baseFileAdapter);
-        filePickerCommonFragment.setTitle("已选文件");
-        filePickerCommonFragment.setType(FilePickerBaseFragment.TYPE_SELECTED);
-        FragmentUtils.addFragmentToActivity(getSupportFragmentManager(),
-                filePickerCommonFragment, R.id.fragment_container);
+        filePickerCommonFragment.setTitle(title);
+        filePickerCommonFragment.setType(typeRoot);
+        return filePickerCommonFragment;
     }
 
     public abstract BaseFileAdapter initAdapter();

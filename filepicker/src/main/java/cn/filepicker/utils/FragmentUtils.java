@@ -15,6 +15,7 @@ public class FragmentUtils {
         transaction.replace(frameId, fragment);
         transaction.commit();
     }
+
     public static void addFragmentToActivity(@NonNull FragmentManager fragmentManager,
                                              @NonNull Fragment fragment, int frameId) {
         // 开启事务
