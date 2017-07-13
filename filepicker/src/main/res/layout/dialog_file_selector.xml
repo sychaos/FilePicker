@@ -55,7 +55,7 @@
             android:gravity="center"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
-            android:text="@string/preview"
+            android:text="@string/selected"
             android:textColor="@color/filepicker_textGrayMed"
             android:textSize="15sp" />
 

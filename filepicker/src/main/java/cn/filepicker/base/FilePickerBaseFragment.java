@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +21,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import cn.filepicker.R;
 import cn.filepicker.adapter.BaseFileAdapter;
-import cn.filepicker.adapter.CommonFileAdapter;
 import cn.filepicker.event.FileRefreshEvent;
 import cn.filepicker.model.FileItem;
 import cn.filepicker.view.RecyclerViewDivider;
@@ -76,7 +74,7 @@ public abstract class FilePickerBaseFragment extends Fragment {
 
         toolbarTitle.setText(mTitle);
 
-        btnPreview.setText(String.format(getString(R.string.preview), ((FilePickerBaseActivity) getActivity()).selectedFiles.size()));
+        btnPreview.setText(String.format(getString(R.string.selected), ((FilePickerBaseActivity) getActivity()).selectedFiles.size()));
 
         mAdapter.setDefaultData(((FilePickerBaseActivity) getActivity()).selectedFiles);
         mAdapter.setOnClickListener(initClickListener());
@@ -134,7 +132,7 @@ public abstract class FilePickerBaseFragment extends Fragment {
     public void onFileRefreshEvent(FileRefreshEvent event) {
         if (mType == TYPE_SELECTED) {
         } else if (mType == TYPE_ROOT || mType == TYPE_DIRECTORY) {
-            btnPreview.setText(String.format(getString(R.string.preview), ((FilePickerBaseActivity) getActivity()).selectedFiles.size()));
+            btnPreview.setText(String.format(getString(R.string.selected), ((FilePickerBaseActivity) getActivity()).selectedFiles.size()));
             mAdapter.notifyDataSetChanged();
         } else {
         }

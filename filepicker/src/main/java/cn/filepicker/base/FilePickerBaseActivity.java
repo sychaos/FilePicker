@@ -1,5 +1,6 @@
 package cn.filepicker.base;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,7 +14,6 @@ import java.util.List;
 
 import cn.filepicker.adapter.BaseFileAdapter;
 import cn.filepicker.R;
-import cn.filepicker.common.FilePickerCommonFragment;
 import cn.filepicker.model.FileItem;
 import cn.filepicker.utils.FileUtils;
 import cn.filepicker.utils.FragmentUtils;
@@ -29,6 +29,12 @@ public abstract class FilePickerBaseActivity extends AppCompatActivity {
     public static final String EXTRA_DATA = "extra_data";
 
     public List<FileItem> selectedFiles;
+
+    public static Intent getStartIntent(Context context, List<FileItem> selectedFiles, Class<? extends FilePickerBaseActivity> activity) {
+        Intent intent = new Intent(context, activity);
+        intent.putExtra(EXTRA_SELECTED_FILES, (Serializable) selectedFiles);
+        return intent;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,20 +83,20 @@ public abstract class FilePickerBaseActivity extends AppCompatActivity {
         BaseFileAdapter baseFileAdapter = initAdapter();
         baseFileAdapter.setData(getFileList(Environment.getExternalStorageDirectory().getAbsolutePath()));
 
-        FilePickerCommonFragment filePickerCommonFragment = getFilePickerCommonFragment(baseFileAdapter,
+        FilePickerBaseFragment baseFragment = getFragment(baseFileAdapter,
                 onResultListener, "文件选择器", FilePickerBaseFragment.TYPE_ROOT);
         FragmentUtils.replaceFragmentToActivity(getSupportFragmentManager(),
-                filePickerCommonFragment, R.id.fragment_container);
+                baseFragment, R.id.fragment_container);
     }
 
     public void newDirectoryFragment(FileItem fileItem) {
         BaseFileAdapter baseFileAdapter = initAdapter();
         baseFileAdapter.setData(getFileList(fileItem.getLocation()));
 
-        FilePickerCommonFragment filePickerCommonFragment = getFilePickerCommonFragment(baseFileAdapter,
+        FilePickerBaseFragment baseFragment = getFragment(baseFileAdapter,
                 onResultListener, fileItem.getName(), FilePickerBaseFragment.TYPE_DIRECTORY);
         FragmentUtils.addFragmentToActivity(getSupportFragmentManager(),
-                filePickerCommonFragment, R.id.fragment_container);
+                baseFragment, R.id.fragment_container);
     }
 
     public void newSelectedFragment() {
@@ -100,24 +106,26 @@ public abstract class FilePickerBaseActivity extends AppCompatActivity {
         BaseFileAdapter baseFileAdapter = initAdapter();
         baseFileAdapter.setData(selectedFiles);
 
-        FilePickerCommonFragment filePickerCommonFragment = getFilePickerCommonFragment(baseFileAdapter,
+        FilePickerBaseFragment baseFragment = getFragment(baseFileAdapter,
                 onResultListener, "已选文件", FilePickerBaseFragment.TYPE_SELECTED);
         FragmentUtils.addFragmentToActivity(getSupportFragmentManager(),
-                filePickerCommonFragment, R.id.fragment_container);
+                baseFragment, R.id.fragment_container);
     }
 
     @NonNull
-    private FilePickerCommonFragment getFilePickerCommonFragment(BaseFileAdapter baseFileAdapter,
-                                                                 OnResultListener onResultListener, String title, int typeRoot) {
-        FilePickerCommonFragment filePickerCommonFragment = FilePickerCommonFragment.newInstance();
-        filePickerCommonFragment.setOnResultListener(onResultListener);
-        filePickerCommonFragment.setAdapter(baseFileAdapter);
-        filePickerCommonFragment.setTitle(title);
-        filePickerCommonFragment.setType(typeRoot);
-        return filePickerCommonFragment;
+    private FilePickerBaseFragment getFragment(BaseFileAdapter baseFileAdapter,
+                                               OnResultListener onResultListener, String title, int typeRoot) {
+        FilePickerBaseFragment baseFragment = initFragment();
+        baseFragment.setOnResultListener(onResultListener);
+        baseFragment.setAdapter(baseFileAdapter);
+        baseFragment.setTitle(title);
+        baseFragment.setType(typeRoot);
+        return baseFragment;
     }
 
     public abstract BaseFileAdapter initAdapter();
+
+    public abstract FilePickerBaseFragment initFragment();
 
     public interface OnResultListener {
         void onResult();

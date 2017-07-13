@@ -20,13 +20,6 @@ import cn.filepicker.model.FileItem;
 
 public class FilePickerCommonFragment extends FilePickerBaseFragment {
 
-    public static FilePickerCommonFragment newInstance() {
-        Bundle arguments = new Bundle();
-        FilePickerCommonFragment fragment = new FilePickerCommonFragment();
-        fragment.setArguments(arguments);
-        return fragment;
-    }
-
     @Override
     public BaseFileAdapter.OnClickListener initClickListener() {
         return new CommonFileAdapter.OnClickListener() {
@@ -37,7 +30,7 @@ public class FilePickerCommonFragment extends FilePickerBaseFragment {
                         final CheckBox checkBox = (CheckBox) view.findViewById(R.id.cb_choose);
                         checkBox.setChecked(!checkBox.isChecked());
                         ((FilePickerBaseActivity) getActivity()).selectedFilesChange(checkBox.isChecked(), fileItem);
-                        btnPreview.setText(String.format(getString(R.string.preview), ((FilePickerBaseActivity) getActivity()).selectedFiles.size()));
+                        btnPreview.setText(String.format(getString(R.string.selected), ((FilePickerBaseActivity) getActivity()).selectedFiles.size()));
                         if (mType == TYPE_SELECTED) {
                             EventBus.getDefault().post(new FileRefreshEvent());
                         } else if (mType == TYPE_ROOT || mType == TYPE_DIRECTORY) {

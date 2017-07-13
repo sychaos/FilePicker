@@ -45,7 +45,7 @@ public class FilePicker {
         if (mActivity == null) {
             throw new RuntimeException("You must pass Activity or Adapter by withActivity or withAdapter method");
         }
-        Intent intent = FilePickerCommonActivity.getStartIntent(mActivity, mSelectedFiles);
+        Intent intent = FilePickerCommonActivity.getStartIntent(mActivity, mSelectedFiles, FilePickerCommonActivity.class);
         mActivity.startActivityForResult(intent, mRequestCode);
     }
 

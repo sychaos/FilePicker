@@ -12,4 +12,10 @@
         android:layout_height="wrap_content"
         android:text="common" />
 
+    <Button
+        android:id="@+id/btn_custom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="custom" />
+
 </LinearLayout>

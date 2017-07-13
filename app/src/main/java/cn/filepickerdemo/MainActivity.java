@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button btnCommon = (Button) findViewById(R.id.btn_common);
+        Button btnCustom = (Button) findViewById(R.id.btn_custom);
 
         btnCommon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,6 +32,13 @@ public class MainActivity extends AppCompatActivity {
                         .withRequestCode(1004)
                         .withSelectedFiles(files)
                         .build();
+            }
+        });
+
+        btnCustom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(CustomActivity.getStartIntent(MainActivity.this, files, CustomActivity.class), 1004);
             }
         });
 
