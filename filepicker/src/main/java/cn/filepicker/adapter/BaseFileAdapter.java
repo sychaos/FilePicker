@@ -2,12 +2,14 @@ package cn.filepicker.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.filepicker.R;
 import cn.filepicker.model.FileItem;
 
 /**
@@ -27,12 +29,21 @@ public abstract class BaseFileAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        LayoutInflater mInflater = LayoutInflater.from(mContext);
+        ViewGroup viewGroup = initViewHolder(parent, viewType);
+        return new ViewHolder(viewGroup);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         initData(holder, mData.get(position), position);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+        }
     }
 
     @Override
@@ -74,6 +85,8 @@ public abstract class BaseFileAdapter extends RecyclerView.Adapter<RecyclerView.
     public interface OnClickListener {
         void onClick(View view, FileItem fileItem);
     }
+
+    public abstract ViewGroup initViewHolder(ViewGroup parent, int viewType);
 
     public abstract void initData(RecyclerView.ViewHolder holder, FileItem fileItem, int position);
 }

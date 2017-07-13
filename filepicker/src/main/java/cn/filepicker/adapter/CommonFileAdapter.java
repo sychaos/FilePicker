@@ -30,7 +30,7 @@ public class CommonFileAdapter extends BaseFileAdapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewGroup initViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater mInflater = LayoutInflater.from(mContext);
         ViewGroup viewGroup = null;
         switch (viewType) {
@@ -47,7 +47,7 @@ public class CommonFileAdapter extends BaseFileAdapter {
                 viewGroup = (ViewGroup) mInflater.inflate(R.layout.empty_view, parent, false);
                 break;
         }
-        return new ViewHolder(viewGroup);
+        return viewGroup;
     }
 
     @Override
@@ -79,13 +79,6 @@ public class CommonFileAdapter extends BaseFileAdapter {
         }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
-
     @Override
     public void setData(List<FileItem> mData) {
         if (mData == null || mData.isEmpty()) {
@@ -94,25 +87,6 @@ public class CommonFileAdapter extends BaseFileAdapter {
             mData.add(fileItem);
         }
         super.setData(mData);
-    }
-
-    public List<FileItem> getSelectedData() {
-        return mSelectedData;
-    }
-
-    public void setDefaultData(List<FileItem> defaultData) {
-        if (defaultData == null) {
-            defaultData = new ArrayList<>();
-        }
-        this.mSelectedData = defaultData;
-    }
-
-    public OnClickListener getOnClickListener() {
-        return onClickListener;
-    }
-
-    public void setOnClickListener(OnClickListener onClickListener) {
-        this.onClickListener = onClickListener;
     }
 
 }
