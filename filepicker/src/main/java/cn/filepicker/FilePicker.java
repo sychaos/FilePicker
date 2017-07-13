@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import java.util.List;
 
-import cn.filepicker.common.FilePickerActivity;
+import cn.filepicker.common.FilePickerCommonActivity;
 import cn.filepicker.model.FileItem;
 
 /**
@@ -15,7 +15,6 @@ import cn.filepicker.model.FileItem;
 public class FilePicker {
 
     private Activity mActivity;
-    private int mTitleColor;
     private int mRequestCode;
     private List<FileItem> mSelectedFiles;
 
@@ -29,11 +28,6 @@ public class FilePicker {
 
     public FilePicker withActivity(Activity activity) {
         this.mActivity = activity;
-        return this;
-    }
-
-    public FilePicker withTitleColor(int resId) {
-        this.mTitleColor = resId;
         return this;
     }
 
@@ -51,7 +45,7 @@ public class FilePicker {
         if (mActivity == null) {
             throw new RuntimeException("You must pass Activity or Adapter by withActivity or withAdapter method");
         }
-        Intent intent = FilePickerActivity.getStartIntent(mActivity, mSelectedFiles, mTitleColor);
+        Intent intent = FilePickerCommonActivity.getStartIntent(mActivity, mSelectedFiles);
         mActivity.startActivityForResult(intent, mRequestCode);
     }
 

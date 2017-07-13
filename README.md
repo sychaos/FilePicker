@@ -26,7 +26,7 @@
 ```xml
      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-     <activity android:name="cn.filepicker.common.FilePickerActivity"/>
+     <activity android:name="cn.filepicker.common.FilePickerCommonActivity"/>
 ```
 
 ### Step 4. override onActivityResult like this

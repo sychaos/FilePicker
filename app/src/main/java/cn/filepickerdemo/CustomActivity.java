@@ -19,16 +19,14 @@ import cn.filepicker.model.FileItem;
 
 public class CustomActivity extends FilePickerBaseActivity {
 
-    public static Intent getStartIntent(Context context, List<FileItem> selectedFiles, int colorResId) {
+    public static Intent getStartIntent(Context context, List<FileItem> selectedFiles) {
         Intent intent = new Intent(context, CustomActivity.class);
         intent.putExtra(EXTRA_SELECTED_FILES, (Serializable) selectedFiles);
-        intent.putExtra(EXTRA_TITLE_COLOR, colorResId);
         return intent;
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        toolbarColorResId = getIntent().getIntExtra(EXTRA_TITLE_COLOR, R.color.colorAccent);
         super.onCreate(savedInstanceState);
     }
 

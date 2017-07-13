@@ -18,24 +18,17 @@ import cn.filepicker.model.FileItem;
  * Created by cloudist on 2017/7/3.
  */
 
-public class FilePickerActivity extends FilePickerBaseActivity {
+public class FilePickerCommonActivity extends FilePickerBaseActivity {
 
-    public static Intent getStartIntent(Context context, List<FileItem> selectedFiles, int colorResId) {
-        Intent intent = new Intent(context, FilePickerActivity.class);
+    public static Intent getStartIntent(Context context, List<FileItem> selectedFiles) {
+        Intent intent = new Intent(context, FilePickerCommonActivity.class);
         intent.putExtra(EXTRA_SELECTED_FILES, (Serializable) selectedFiles);
-        intent.putExtra(EXTRA_TITLE_COLOR, colorResId);
         return intent;
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        toolbarColorResId = getIntent().getIntExtra(EXTRA_TITLE_COLOR, R.color.filepicker_toolbar);
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public BaseFileAdapter initAdapter() {
-        return new CommonFileAdapter(FilePickerActivity.this);
+        return new CommonFileAdapter(FilePickerCommonActivity.this);
     }
 
 }

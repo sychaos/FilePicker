@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
                         .withActivity(MainActivity.this)
                         .withRequestCode(1004)
                         .withSelectedFiles(files)
-                        .withTitleColor(R.color.colorPrimaryDark)
                         .build();
             }
         });
@@ -40,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivityForResult(
-                        CustomActivity.getStartIntent(MainActivity.this, files, R.color.colorPrimaryDark), 1005);
+                        CustomActivity.getStartIntent(MainActivity.this, files), 1005);
             }
         });
 

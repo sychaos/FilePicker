@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="cn.filepicker.common.FilePickerActivity"/>
+        <activity android:name="cn.filepicker.common.FilePickerCommonActivity"/>
         <activity android:name=".CustomActivity"/>
     </application>
 

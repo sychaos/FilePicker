@@ -31,7 +31,7 @@ import cn.filepicker.view.RecyclerViewDivider;
  * Created by cloudist on 2017/7/4.
  */
 
-public class FilePickerBaseFragment extends Fragment {
+public abstract class FilePickerBaseFragment extends Fragment {
 
     public static final int TYPE_ROOT = 1010;
     public static final int TYPE_DIRECTORY = 1011;
@@ -41,16 +41,15 @@ public class FilePickerBaseFragment extends Fragment {
 
     private String mTitle;
     public BaseFileAdapter mAdapter;
-    private int mToolbarColorResId;
 
     LinearLayoutManager mLayoutManager;
 
     RecyclerView mRecyclerView;
     ImageView btnBack;
     Button btnSelect;
-    Button btnPreview;
 
-    private int mType;
+    public Button btnPreview;
+    public int mType;
 
     @Nullable
     @Override
@@ -75,33 +74,12 @@ public class FilePickerBaseFragment extends Fragment {
         btnSelect = (Button) view.findViewById(R.id.btn_select);
         btnPreview = (Button) view.findViewById(R.id.btn_preview);
 
-        toolbar.setBackgroundResource(mToolbarColorResId);
         toolbarTitle.setText(mTitle);
 
         btnPreview.setText(String.format(getString(R.string.preview), ((FilePickerBaseActivity) getActivity()).selectedFiles.size()));
 
         mAdapter.setDefaultData(((FilePickerBaseActivity) getActivity()).selectedFiles);
-        mAdapter.setOnClickListener(new CommonFileAdapter.OnClickListener() {
-            @Override
-            public void onClick(View view, final FileItem fileItem) {
-                switch (fileItem.getItemType()) {
-                    case CommonFileAdapter.TYPE_DOC:
-                        final CheckBox checkBox = (CheckBox) view.findViewById(R.id.cb_choose);
-                        checkBox.setChecked(!checkBox.isChecked());
-                        ((FilePickerBaseActivity) getActivity()).selectedFilesChange(checkBox.isChecked(), fileItem);
-                        btnPreview.setText(String.format(getString(R.string.preview), ((FilePickerBaseActivity) getActivity()).selectedFiles.size()));
-                        if (mType == TYPE_SELECTED) {
-                            EventBus.getDefault().post(new FileRefreshEvent());
-                        } else if (mType == TYPE_ROOT || mType == TYPE_DIRECTORY) {
-                        } else {
-                        }
-                        break;
-                    case CommonFileAdapter.TYPE_FOLDER:
-                        goIntoDirectory(fileItem);
-                        break;
-                }
-            }
-        });
+        mAdapter.setOnClickListener(initClickListener());
 
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new RecyclerViewDivider(getContext(), RecyclerViewDivider.VERTICAL_LIST));
@@ -176,12 +154,10 @@ public class FilePickerBaseFragment extends Fragment {
         ((FilePickerBaseActivity) getActivity()).newDirectoryFragment(fileItem);
     }
 
+    public abstract BaseFileAdapter.OnClickListener initClickListener();
+
     public void setOnResultListener(FilePickerBaseActivity.OnResultListener onResultListener) {
         this.onResultListener = onResultListener;
-    }
-
-    public void setmToolbarColorResId(int mToolbarColorResId) {
-        this.mToolbarColorResId = mToolbarColorResId;
     }
 
     public void setTitle(String mTitle) {
